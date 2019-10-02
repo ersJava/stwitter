@@ -1,0 +1,140 @@
+openapi: 3.0.0
+info:
+  title: Stwitter
+  description: A social media service for a company intranet for users to post and make comments on other posts.
+  version: 0.0.1
+servers: 
+  - url: 'http://localhost:1999'
+    description: Config server
+  - url: 'http://localhost:8761'
+    description: Eureka server
+  - url: 'http://localhost:8889'
+    description: Stwitter service
+
+paths:
+  /posts:
+    post:
+      summary: Creates a new Post.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+      responses:
+        '201':
+          description: A Post object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        '400':
+          description: Invalid request syntax.
+        '422':
+          description: Incomplete Post information. Some required fields missing.
+          
+  /posts/{id}:
+    get:
+      summary:  Retrieves the entry for the Post by ID.
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID of the Post you would like to retrieve.
+          schema:
+            type: integer
+            format: int64
+            minimum: 1
+      responses:
+        '200':
+          description: Post object matching given ID.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        '404':
+          description: Post with given ID not found.
+          
+  /posts/user/{posterName}:
+    get:
+      summary: Retrieves the entries by Poster name.
+      parameters: 
+        - name: posterName
+          in: path
+          required: true
+          description: Name of the Poster of Posts you would like to retrieve.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Post array matching given name of Poster.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Posts'
+        '404':
+          description: Posts with given name not found.
+          
+  /posts/{id}/comments:
+    post:
+      summary: Creates a Comment on a Post.
+      parameters: 
+      - name: id
+        in: path
+        required: true
+        description: ID of the Post you want to create a Comment on.
+        schema:
+          type: string
+      responses:
+        '201':
+          description: A Comment object.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        '400':
+          description: Invalid request syntax.
+        '422':
+          description: Incomplete Comment information. Some required fields missing.
+      
+components:
+  schemas:
+    Post:
+      properties:
+        postId:
+          type: integer
+        postContent:
+          type: string
+        postDate:
+          type: number
+        posterName:
+          type: string
+        comments:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+      required: 
+        - postContent
+        - postDate
+        - posterName
+    Posts:
+      type: array
+      items:
+         $ref: '#/components/schemas/Post'
+    Comment:
+      properties:
+        commentId:
+          type: integer
+        postId:
+          type: integer
+        commenterName:
+          type: string
+        commentDate:
+          type: number
+        commentContent:
+          type: string
+      required: 
+        - postId
+        - commenterName
+        - commentDate
+        - commentContent
