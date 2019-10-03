@@ -2,7 +2,7 @@
 
 ## How It Works
 
-A social media service for a company intranet for users to post and make comments on other posts.
+A social media service for a company intranet for users to create post and make comments on other posts.
 
 Please see YAML for API documentation. 
 
