@@ -1,5 +1,8 @@
 # Stwitter
 
+<img src="https://github.com/ersJava/stwitter/blob/master/Screen%20Shot%202019-10-02%20at%209.57.04%20PM.png" alt="Stwitter store mock up">
+
+
 ## How It Works
 
 A social media service for a company intranet for users to create post and make comments on other posts.
