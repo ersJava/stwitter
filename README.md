@@ -21,6 +21,7 @@ The Post service and Comment service are typical Spring Boot REST web service wi
 
 ### Technologies Used
 * Java
+* Jdbc Template
 * Spring Boot
 * Feign
 * Eureka Server
